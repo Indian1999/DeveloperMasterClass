@@ -20,7 +20,6 @@ def print_results():
         print(result)
         
 def create_table(table_name:str, field_names:list, field_types:list) -> None:
-    # CREATE TABLE table_name (name VARCHAR(255), address VARCHAR(255))
     fields = ""
     for i in range(len(field_names)):
         fields += field_names[i] + " " + field_types[i] + ", "
@@ -30,4 +29,7 @@ def create_table(table_name:str, field_names:list, field_types:list) -> None:
 table_name = "customers"
 field_names = ["name", "address", "country", "postal_code", "age", "email", "telephone"]
 field_types = ["VARCHAR(255)","VARCHAR(255)","VARCHAR(255)", "INT(255)", "INT(255)","VARCHAR(255)","VARCHAR(255)"]
-create_table(table_name, field_names, field_types)
+#create_table(table_name, field_names, field_types)
+
+cursor.execute("SHOW TABLES")
+print_results()
