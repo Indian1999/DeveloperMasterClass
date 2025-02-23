@@ -24,13 +24,11 @@ def create_table(table_name:str, field_names:list, field_types:list) -> None:
     for i in range(len(field_names)):
         fields += field_names[i] + " " + field_types[i] + ", "
     fields = fields[:-2]
-    cursor.execute(f"CREATE TABLE {table_name} ({fields})")
+    cursor.execute(f"CREATE TABLE {table_name} (id INT AUTO_INCREMENT PRIMARY KEY, {fields})")
     
 table_name = "customers"
 field_names = ["name", "address", "country", "postal_code", "age", "email", "telephone"]
 field_types = ["VARCHAR(255)","VARCHAR(255)","VARCHAR(255)", "INT(255)", "INT(255)","VARCHAR(255)","VARCHAR(255)"]
 #create_table(table_name, field_names, field_types)
-
-cursor.execute("DROP TABLE customers")
 cursor.execute("SHOW TABLES")
 print_results()
