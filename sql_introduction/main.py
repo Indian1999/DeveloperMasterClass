@@ -6,4 +6,9 @@ db = mysql.connector.connect(
     password = "kelkáposzta"
 )
 
-print(db)
+cursor = db.cursor()
+
+def create_database(dbname):
+    cursor.execute(f"CREATE DATABASE {dbname}")
+    
+create_database("logiscool")
