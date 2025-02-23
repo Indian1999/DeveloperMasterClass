@@ -31,5 +31,6 @@ field_names = ["name", "address", "country", "postal_code", "age", "email", "tel
 field_types = ["VARCHAR(255)","VARCHAR(255)","VARCHAR(255)", "INT(255)", "INT(255)","VARCHAR(255)","VARCHAR(255)"]
 #create_table(table_name, field_names, field_types)
 
+cursor.execute("DROP TABLE customers")
 cursor.execute("SHOW TABLES")
 print_results()
