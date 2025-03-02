@@ -67,6 +67,9 @@ def select_country_starts_with(start):
         print(item)
     
 select_country_starts_with("m")
+
+# Kérdezzük le azokat a sorokat, ahol a névben benne van egy 'a' betű és country nevében is van 'a'
+# name, country, postal_code, és ezt tároljuk el egy erre alkalmas adatszerkezetben
     
 
 

@@ -6,3 +6,7 @@ db = mysql.connector.connect(
     password = "cc31163c",
     database = "heroku_eac377a18b009b8"
 )
+
+cursor = db.cursor()
+
+cursor.execute("SHOW TABLES")
