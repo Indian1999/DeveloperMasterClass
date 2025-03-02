@@ -52,14 +52,21 @@ field_types = ["VARCHAR(255)","VARCHAR(255)","VARCHAR(255)", "INT(255)", "INT(25
 
 #upload_data_to(data, "customers")
 
-cursor.execute("SELECT name, email, country FROM customers WHERE country = 'Bulgaria'")
+def select_bulgarians():
+    cursor.execute("SELECT name, email, country FROM customers WHERE country = 'Bulgaria'")
+    results = cursor.fetchall()
+    bulgarians = {}
+    for row in results:
+        bulgarians[row[0]] = row[1]
+    print(bulgarians)
 
-results = cursor.fetchall()
-print(results)
-bulgarians = {}
-for row in results:
-    bulgarians[row[0]] = row[1]
-print(bulgarians)
+def select_country_starts_with(start):
+    cursor.execute(f"SELECT name, email, country FROM customers WHERE country LIKE '{start}%'")
+    results = cursor.fetchall() # Egy lista, ami tuple-ket tartalmaz
+    for item in results:
+        print(item)
+    
+select_country_starts_with("m")
     
 
 
