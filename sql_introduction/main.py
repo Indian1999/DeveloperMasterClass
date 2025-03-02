@@ -40,17 +40,26 @@ def clear_table(table_name):
 def upload_data_to(data, table_name):
     for row in data.iterrows():
         cursor.execute(f"INSERT INTO {table_name} (name, address, country, postal_code, age, email, telephone) VALUES ('{row[1]['name']}', '{row[1]['address']}', '{row[1]['country']}', '{row[1]['postal_code']}', '{row[1]['age']}', '{row[1]['email']}', '{row[1]['telephone']}')")
+    db.commit()
     
 table_name = "customers"
 field_names = ["name", "address", "country", "postal_code", "age", "email", "telephone"]
 field_types = ["VARCHAR(255)","VARCHAR(255)","VARCHAR(255)", "INT(255)", "INT(255)","VARCHAR(255)","VARCHAR(255)"]
 
-clear_table("customers")
+#clear_table("customers")
 
-data = pd.read_csv("sql_introduction\generated_data.csv", delimiter = ";")
+#data = pd.read_csv("sql_introduction\generated_data.csv", delimiter = ";")
 
-upload_data_to(data, "customers")
-cursor.execute("SELECT * FROM customers")
-print_results()
+#upload_data_to(data, "customers")
+
+cursor.execute("SELECT name, email, country FROM customers WHERE country = 'Bulgaria'")
+
+results = cursor.fetchall()
+print(results)
+bulgarians = {}
+for row in results:
+    bulgarians[row[0]] = row[1]
+print(bulgarians)
+    
 
 
