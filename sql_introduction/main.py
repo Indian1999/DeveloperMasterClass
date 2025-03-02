@@ -26,12 +26,18 @@ def create_table(table_name:str, field_names:list, field_types:list) -> None:
     fields = fields[:-2]
     cursor.execute(f"CREATE TABLE {table_name} (id INT AUTO_INCREMENT PRIMARY KEY, {fields})")
     
+def insert_john_snow():
+    cursor.execute("INSERT INTO customers (name, address, country, postal_code, age, email, telephone) VALUES ('John Snow', 'Hammer street 8.', 'USA', 5427, 35, 'john.snow@gmail.com', 564583257)")
+    db.commit()
+    cursor.execute("SELECT * FROM customers")
+    print_results()
+    
+def clear_table(table_name):
+    cursor.execute(f"TRUNCATE TABLE {table_name}")
+    cursor.execute(f"ALTER TABLE {table_name} AUTO_INCREMENT = 1;")
+
 table_name = "customers"
 field_names = ["name", "address", "country", "postal_code", "age", "email", "telephone"]
 field_types = ["VARCHAR(255)","VARCHAR(255)","VARCHAR(255)", "INT(255)", "INT(255)","VARCHAR(255)","VARCHAR(255)"]
 
-
-cursor.execute("INSERT INTO customers (name, address, country, postal_code, age, email, telephone) VALUES ('John Snow', 'Hammer street 8.', 'USA', 5427, 35, 'john.snow@gmail.com', 564583257)")
-db.commit()
-cursor.execute("SELECT * FROM customers")
-print_results()
+clear_table("customers")
