@@ -38,11 +38,13 @@ for page_num in range(1, num_of_pages + 1):
     for result in results:
         try:
             product = {}
-            product["title"] = None
-            product["price"] = None
-            product["img-url"] = None
+            product["title"] = result.find_element(By.CSS_SELECTOR, "a.product-title").text
+            product["price"] = remove_non_digit(result.find_element(By.CSS_SELECTOR, "span.ty-price-num").text)
+            product["currency"] = "HUF"
+            product["img-url"] = result.find_element(By.TAG_NAME, "img").get_attribute("src")
             product["url"] = result.find_element(By.CSS_SELECTOR, "a.product_icon_lnk").get_attribute("href")
-            product["page"] = None
+            product["page"] = page_num
+            product["article-number"] = result.find_element(By.CSS_SELECTOR, "div.ut2--sku-text").text
             product["price-per-unit"] = None
             
             products.append(product)
@@ -58,4 +60,4 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 file_path = os.path.join(current_dir, "products.json")
 
 with open(file_path, "w", encoding="utf-8") as f:
-    json.dump(products, f, indent=4)
+    json.dump(products, f, indent=4, ensure_ascii=False)
