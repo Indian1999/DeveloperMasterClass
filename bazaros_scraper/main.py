@@ -14,12 +14,14 @@ def remove_non_digit(string: str) -> int:
         return 0
     return int(new_string)
 
+
+vendor_link = "https://bazarosonline.hu/by-rozane-cosmetics-hu/"
 options = webdriver.ChromeOptions()
 options.add_argument("--headless=new")
 
 driver = webdriver.Chrome(options=options)
 
-driver.get("https://bazarosonline.hu/alex-store-hu/")
+driver.get(vendor_link)
 
 #"ty-mainbox-title__right"
 num_of_products = driver.find_element(By.CSS_SELECTOR, "span.ty-mainbox-title__right").text
@@ -31,7 +33,7 @@ products = []
 
 for page_num in range(1, num_of_pages + 1):
     print(f"Scanning page no. {page_num}...")
-    driver.get(f"https://bazarosonline.hu/alex-store-hu/?page={page_num}")
+    driver.get(f"{vendor_link}?page={page_num}")
     
     results = driver.find_elements(By.CSS_SELECTOR, "div.ut2-gl__item")
     
