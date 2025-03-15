@@ -1,5 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import math
+import json
 
 def remove_non_digit(string: str) -> int:
     """Removes every non digit character from the string, and returns an integer."""
@@ -11,8 +13,6 @@ def remove_non_digit(string: str) -> int:
         return 0
     return int(new_string)
 
-
-
 options = webdriver.ChromeOptions()
 options.add_argument("--headless=new")
 
@@ -22,7 +22,32 @@ driver.get("https://bazarosonline.hu/alex-store-hu/")
 
 #"ty-mainbox-title__right"
 num_of_products = driver.find_element(By.CSS_SELECTOR, "span.ty-mainbox-title__right").text
-print(num_of_products)
+num_of_products = remove_non_digit(num_of_products)
+num_of_pages = math.ceil(num_of_products / 50)
 
+num_of_pages = 2 # felülírom, hogy ne 1 órág fésülgesse az oldalakat
+products = []
+
+for page_num in range(1, num_of_pages + 1):
+    print(f"Scanning page no. {page_num}...")
+    driver.get(f"https://bazarosonline.hu/alex-store-hu/?page={page_num}")
+    
+    results = driver.find_elements(By.CSS_SELECTOR, "div.ut2-gl__item")
+    
+    for result in results:
+        try:
+            product = {}
+            product["title"] = None
+            product["price"] = None
+            product["img-url"] = None
+            product["url"] = result.find_element(By.CSS_SELECTOR, "a.product_icon_lnk").get_attribute("href")
+            product["page"] = None
+            product["price-per-unit"] = None
+        except Exception as ex:
+            print("The program encountered an error!")
+            print(ex)
 
 driver.quit()
+
+with open("products.json", "w", encoding="utf-8") as f:
+    json.dump(products, f, indent=4)
