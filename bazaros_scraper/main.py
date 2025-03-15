@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import math
 import json
+import os
 
 def remove_non_digit(string: str) -> int:
     """Removes every non digit character from the string, and returns an integer."""
@@ -43,11 +44,18 @@ for page_num in range(1, num_of_pages + 1):
             product["url"] = result.find_element(By.CSS_SELECTOR, "a.product_icon_lnk").get_attribute("href")
             product["page"] = None
             product["price-per-unit"] = None
+            
+            products.append(product)
         except Exception as ex:
             print("The program encountered an error!")
             print(ex)
 
 driver.quit()
 
-with open("products.json", "w", encoding="utf-8") as f:
+#Megadja annak a mappának az útvonalát, amiben fut az aktuális filunk
+current_dir = os.path.dirname(os.path.abspath(__file__))
+#Létrehozom a json file útvonalát:
+file_path = os.path.join(current_dir, "products.json")
+
+with open(file_path, "w", encoding="utf-8") as f:
     json.dump(products, f, indent=4)
