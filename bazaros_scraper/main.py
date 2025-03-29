@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 import math
 import json
 import os
@@ -49,6 +50,16 @@ for page_num in range(1, num_of_pages + 1):
             product["page"] = page_num
             product["article-number"] = result.find_element(By.CSS_SELECTOR, "div.ut2--sku-text").text
             product["price-per-unit"] = None
+            try:
+                product["minimum-order"] = int(result.find_element(By.CLASS_NAME, "cm-amount").get_attribute("value"))
+            except:   
+                try:
+                    dropdown = result.find_element(By.CSS_SELECTOR, "select[name*='amount']")
+                    select = Select(dropdown)
+                    quantities = [int(option.get_attribute("value")) for option in select.options]
+                    product["minimum"] = min(quantities)
+                except:
+                    product["minimum-order"] = None
             
             products.append(product)
         except Exception as ex:
