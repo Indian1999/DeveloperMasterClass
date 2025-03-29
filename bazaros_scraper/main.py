@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 import math
 import json
 import os
+from pagebuilder import generate_div_string_from_dict, generate_html_from_template
 
 def remove_non_digit(string: str) -> int:
     """Removes every non digit character from the string, and returns an integer."""
@@ -63,5 +64,13 @@ file_path = os.path.join(current_dir, "products.json")
 
 with open(file_path, "w", encoding="utf-8") as f:
     json.dump(products, f, indent=4, ensure_ascii=False)
+    
+div_strings = []
+for elem in products:
+    div_strings.append(generate_div_string_from_dict(elem))
+
+template_path = os.path.join(current_dir, "template.html")
+destination_path = os.path.join(current_dir, "by_rozane.html")
+generate_html_from_template(template_path, destination_path, div_strings)
     
     
