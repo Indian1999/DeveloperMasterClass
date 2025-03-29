@@ -63,3 +63,5 @@ file_path = os.path.join(current_dir, "products.json")
 
 with open(file_path, "w", encoding="utf-8") as f:
     json.dump(products, f, indent=4, ensure_ascii=False)
+    
+    
