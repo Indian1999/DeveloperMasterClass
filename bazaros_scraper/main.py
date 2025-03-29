@@ -57,7 +57,7 @@ for page_num in range(1, num_of_pages + 1):
                     dropdown = result.find_element(By.CSS_SELECTOR, "select[name*='amount']")
                     select = Select(dropdown)
                     quantities = [int(option.get_attribute("value")) for option in select.options]
-                    product["minimum"] = min(quantities)
+                    product["minimum-order"] = min(quantities)
                 except:
                     product["minimum-order"] = None
             
