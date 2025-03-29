@@ -30,7 +30,7 @@
         "page": 1,
         "article-number": "F262",
         "price-per-unit": null,
-        "minimum": 24
+        "minimum-order": 24
     },
     {
         "title": "Nagyker GLASS alapozó készlet szivaccsal",
@@ -52,7 +52,7 @@
         "page": 1,
         "article-number": "R.108",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Nagykereskedelmi alapozó szivacs",
@@ -74,7 +74,7 @@
         "page": 1,
         "article-number": "E98",
         "price-per-unit": null,
-        "minimum": 48
+        "minimum-order": 48
     },
     {
         "title": "Ajakceruza 1028A nagyker",
@@ -85,7 +85,7 @@
         "page": 1,
         "article-number": "E97",
         "price-per-unit": null,
-        "minimum": 48
+        "minimum-order": 48
     },
     {
         "title": "Szájfény nagykereskedelme 36",
@@ -140,7 +140,7 @@
         "page": 1,
         "article-number": "F70",
         "price-per-unit": null,
-        "minimum": 72
+        "minimum-order": 72
     },
     {
         "title": "Folyékony highlighter/fixing spray arcra és testre nagykereskedés 054 Ushas",
@@ -162,7 +162,7 @@
         "page": 1,
         "article-number": "F63",
         "price-per-unit": null,
-        "minimum": 48
+        "minimum-order": 48
     },
     {
         "title": "Eau de toilette - Parfüm 100 ml nagyker",
@@ -283,7 +283,7 @@
         "page": 1,
         "article-number": "C 389",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Szivacs nagykereskedelmi POR/alapozó",
@@ -360,7 +360,7 @@
         "page": 1,
         "article-number": "E-R.67-4",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "MŰKÖRÖK NAGYKERESKEDELMI RAGASZTÓVAL, 12/SZETT, TÖBBSZÍNŰ",
@@ -459,7 +459,7 @@
         "page": 1,
         "article-number": "R1003",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Fésű 5 fém foggal nagykereskedelmi hajhoz",
@@ -481,7 +481,7 @@
         "page": 1,
         "article-number": "Pieotan galben coada",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Nagykereskedelmi fésű farokszőrre, ritka",
@@ -503,7 +503,7 @@
         "page": 1,
         "article-number": "R.24",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Nagykereskedelmi fésű egyenes hajra",
@@ -514,7 +514,7 @@
         "page": 1,
         "article-number": "R.23",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Nagykereskedelmi fésű dupla fogú hajra",
@@ -536,7 +536,7 @@
         "page": 1,
         "article-number": "D-R1/R2",
         "price-per-unit": null,
-        "minimum": 20
+        "minimum-order": 20
     },
     {
         "title": "QIBest ajakceruza nagykereskedelmi készlet",
@@ -547,7 +547,7 @@
         "page": 1,
         "article-number": "F207",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Hajrugalmas doboz 24 nagyker",
@@ -580,7 +580,7 @@
         "page": 2,
         "article-number": "D17",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Nagykereskedelmi elasztikus készlet gyerekeknek",
@@ -613,7 +613,7 @@
         "page": 2,
         "article-number": "F-R172",
         "price-per-unit": null,
-        "minimum": 24
+        "minimum-order": 24
     },
     {
         "title": "Hajgumi D63 nagykereskedés",
@@ -657,7 +657,7 @@
         "page": 2,
         "article-number": "E460",
         "price-per-unit": null,
-        "minimum": 48
+        "minimum-order": 48
     },
     {
         "title": "QIBest ajakceruza nagykereskedelmi készlet",
@@ -679,7 +679,7 @@
         "page": 2,
         "article-number": "F71",
         "price-per-unit": null,
-        "minimum": 72
+        "minimum-order": 72
     },
     {
         "title": "Nagykereskedelmi Ushas szemöldökceruza 007",
@@ -690,7 +690,7 @@
         "page": 2,
         "article-number": "F282",
         "price-per-unit": null,
-        "minimum": 48
+        "minimum-order": 48
     },
     {
         "title": "Nagykereskedelmi Ushas szemöldökceruza 006",
@@ -701,7 +701,7 @@
         "page": 2,
         "article-number": "F297",
         "price-per-unit": null,
-        "minimum": 96
+        "minimum-order": 96
     },
     {
         "title": "Nagykereskedelmi lófarok fésű",
@@ -723,7 +723,7 @@
         "page": 2,
         "article-number": "R.23-1",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Nagykereskedelmi fésű egyenes hajra",
@@ -822,7 +822,7 @@
         "page": 2,
         "article-number": "A243",
         "price-per-unit": null,
-        "minimum": 24
+        "minimum-order": 24
     },
     {
         "title": "Pirosító applikátor 2 végű nagykereskedelem",
@@ -833,7 +833,7 @@
         "page": 2,
         "article-number": "D.R32",
         "price-per-unit": null,
-        "minimum": 12
+        "minimum-order": 12
     },
     {
         "title": "Pirosítókefe készlet 32 darabos nagyker",
@@ -932,7 +932,7 @@
         "page": 2,
         "article-number": "D251",
         "price-per-unit": null,
-        "minimum": 24
+        "minimum-order": 24
     },
     {
         "title": "Pirosító/alapozó ecsetek nagykereskedés Ushas 461",
@@ -965,7 +965,7 @@
         "page": 2,
         "article-number": "D.165",
         "price-per-unit": null,
-        "minimum": 24
+        "minimum-order": 24
     },
     {
         "title": "Blush- rouge 1299 nagykereskedelmi púder",
@@ -976,7 +976,7 @@
         "page": 2,
         "article-number": "D120 blush",
         "price-per-unit": null,
-        "minimum": 24
+        "minimum-order": 24
     },
     {
         "title": "LAREEN 004 szemhéjfesték készlet/paletta engross 36 színben",
@@ -1042,7 +1042,7 @@
         "page": 2,
         "article-number": "F293",
         "price-per-unit": null,
-        "minimum": 24
+        "minimum-order": 24
     },
     {
         "title": "Tömör rúzs 24/doboz 021 Ushas nagyker",
@@ -1086,7 +1086,7 @@
         "page": 2,
         "article-number": "F294",
         "price-per-unit": null,
-        "minimum": 24
+        "minimum-order": 24
     },
     {
         "title": "Tömör rúzs + teszter 24/doboz Ushas 046",
