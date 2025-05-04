@@ -16,10 +16,16 @@ class Enemy:
             self.rect = Rectangle(pos=self.pos, size = self.size)
             
         Clock.schedule_interval(self.move, 1/60)
-        
+    
+    def destroy(self):
+        #self.widget.canvas.remove(self.rect)
+        del self
+    
     def move(self, deltaTime):
-        if self.current_index > len(self.path):
+        if self.current_index >= len(self.path)-1:
+            self.destroy()
             return # Kilépünk, mert elértük a célt
+        
         target = self.path[self.current_index + 1]
         direction = Vector(*target) - Vector(*self.pos)
         # target = (50, 100)

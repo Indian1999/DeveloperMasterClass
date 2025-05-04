@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color, Rectangle
 from kivy.core.window import Window
+from enemy import Enemy
 
 class GameWidget(Widget):
     def __init__(self, **kwarg):
@@ -14,6 +15,10 @@ class GameWidget(Widget):
             (Window.width // 4 * 3, 0)
         ]
         self.draw_path()
+        self.spawn_enemy()
+        
+    def spawn_enemy(self):
+        self.enemy = Enemy(self, self.path_points)
         
     def draw_path(self):
         with self.canvas:
@@ -21,8 +26,6 @@ class GameWidget(Widget):
             Line(points=sum(self.path_points, ()), width=40, cap = "round")
         
     
-
-
 class TowerDefenseApp(App):
     def build(self):
         return GameWidget()
