@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics import Line, Color, Rectangle
 from kivy.core.window import Window
+from kivy.clock import Clock
 from enemy import Enemy
 from tower import Tower
 
@@ -15,11 +16,14 @@ class GameWidget(Widget):
             (Window.width // 4 * 3, Window.height // 5 * 4),
             (Window.width // 4 * 3, 0)
         ]
+        self.enemies = []
+        self.towers = []
         self.draw_path()
-        self.spawn_enemy()
+        self.towers.append(Tower(self, (100, 200)))
+        Clock.schedule_interval(self.spawn_enemy, 5)
         
-    def spawn_enemy(self):
-        self.enemy = Enemy(self, self.path_points)
+    def spawn_enemy(self, deltaTime):
+        self.enemies.append(Enemy(self, self.path_points))
         
     def draw_path(self):
         with self.canvas:

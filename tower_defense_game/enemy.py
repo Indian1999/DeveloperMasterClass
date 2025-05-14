@@ -15,10 +15,13 @@ class Enemy:
             Color(1,0,0) #Piros
             self.rect = Rectangle(pos=self.pos, size = self.size)
             
+        self.alive = True    
         Clock.schedule_interval(self.move, 1/60)
     
     def destroy(self):
-        #self.widget.canvas.remove(self.rect)
+        if hasattr(self, "rect") and self.rect in self.widget.canvas.children:
+            self.widget.canvas.remove(self.rect)
+        self.widget.enemies.remove(self)
         del self
     
     def move(self, deltaTime):
