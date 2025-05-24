@@ -41,14 +41,14 @@ class GameWidget(Widget):
             (Window.width // 4 * 3, Window.height // 5 * 4),
             (Window.width // 4 * 3, 0)
         ]
+        Window.bind(mouse_pos=self.on_mouse_move)
         self.enemies = []
         self.towers = []
         self.draw_path()
         self.basic_ghost_tower = None
         self.towers.append(Tower(self, (500, 500)))
         Clock.schedule_interval(self.spawn_enemy, 5)
-        
-        
+           
     def on_touch_down(self, touch):
         app = App.get_running_app()
         ui = app.root
@@ -56,12 +56,13 @@ class GameWidget(Widget):
             self.towers.append(Tower(self, (touch.x, touch.y)))
             ui.finish_basic_tower_placement()
             self.remove_basic_ghost_tower()
-            
-    def on_touch_move(self, touch):
+        
+    def on_mouse_move(self, window, pos):
         app = App.get_running_app()
         ui = app.root
         if ui.placing_basic_tower:
-            self.show_basic_ghost_tower(touch.x, touch.y)
+            self.show_basic_ghost_tower(pos[0], pos[1])
+        return True    
         
     def show_basic_ghost_tower(self, x, y):
         if self.basic_ghost_tower:

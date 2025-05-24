@@ -3,12 +3,13 @@ from kivy.clock import Clock
 from kivy.vector import Vector
 
 class Bullet:
-    def __init__(self, widget, tower, target):
+    def __init__(self, widget, tower, target, damage):
         self.widget = widget
         self.tower = tower
         self.pos = list(tower.pos)
         self.target = target
         self.speed = 8
+        self.damage = damage
         self.size = (6,6)
         with widget.canvas:
             Color(0, 1, 1)
@@ -23,7 +24,7 @@ class Bullet:
         
         direction = Vector(*self.target.pos) - Vector(*self.pos)
         if direction.length() <= self.speed:
-            self.target.destroy()
+            self.target.takeDamage(self.damage)
             self.destroy()
         else:
             step = direction.normalize() * self.speed

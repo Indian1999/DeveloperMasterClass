@@ -10,6 +10,7 @@ class Enemy:
         self.speed = 2
         self.size = (30, 30)
         self.pos = list(self.path[0])   # [0, 200]
+        self.health = 50
         
         with widget.canvas:
             Color(1,0,0) #Piros
@@ -21,9 +22,18 @@ class Enemy:
     def destroy(self):
         if hasattr(self, "rect") and self.rect in self.widget.canvas.children:
             self.widget.canvas.remove(self.rect)
-        self.widget.enemies.remove(self)
+        try:
+            self.widget.enemies.remove(self)
+        except:
+            pass
         del self
     
+    def takeDamage(self, amount):
+        self.health -= amount
+        if self.health <= 0:
+            self.destroy()
+        
+        
     def move(self, deltaTime):
         if self.current_index >= len(self.path)-1:
             self.destroy()

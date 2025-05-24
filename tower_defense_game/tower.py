@@ -10,6 +10,7 @@ class Tower:
         self.range = range
         self.size = (40, 40)
         self.bullets = []
+        self.damage = 10
         with widget.canvas:
             Color(0,0,1)
             self.rect = Rectangle(pos=self.pos, size = self.size)
@@ -18,7 +19,7 @@ class Tower:
     def attack(self, deltaTime):
         for enemy in self.widget.enemies:
             if self.is_in_range(enemy):
-                self.bullets.append(Bullet(self.widget, self, enemy))
+                self.bullets.append(Bullet(self.widget, self, enemy, self.damage))
                 break # Kilépónk a ciklusból, hogy csak 1 ellenséget támadjon
     
     def is_in_range(self, enemy):
