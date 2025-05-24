@@ -12,7 +12,7 @@ from enemy import Enemy
 from tower import Tower
 
 class GameUI(BoxLayout):
-    money = NumericProperty(500)
+    money = NumericProperty(5000)
     health = NumericProperty(100)
     wave = NumericProperty(1)
     placing_basic_tower = BooleanProperty(False)
@@ -49,10 +49,49 @@ class GameWidget(Widget):
         self.towers.append(Tower(self, (500, 500)))
         Clock.schedule_interval(self.spawn_enemy, 5)
            
+    def is_valid_tower_position(self, x, y):
+        for i in range(len(self.path_points) - 1):
+            A = self.path_points[i]
+            B = self.path_points[i + 1]
+            if self.segment_point_distance(A, B, (x, y)) < 50:
+                return False
+        return True
+            
+    def segment_point_distance(self, A, B, P):
+        def point_distance(A, B):
+            return (  (A[0]-B[0])**2 + (A[1]-B[1])**2    )**(1/2)
+        (x1, y1) = A    
+        (x2, y2) = B
+        (xp, yp) = P
+        # A->B vektor
+        vx = x2 - x1
+        vy = y2 - y1
+        wx = xp - x1    
+        wy = yp - y1   
+        
+        s1 = vx * wx + vy * wy # v * w (Skaláris szorzat)
+        s2 = vx * vx + vy * vy # v * v
+        
+        t = s1/s2
+        if t < 0:
+            return point_distance(A, P)
+        elif t > 1:
+            return point_distance(B, P)
+        else:
+            qx = x1 + t*vx
+            qy = y1 + t*vy
+            return point_distance((qx, qy), P)
+        
+        # Ha t < 0, akkor a legközelebbi pont a szakasz A pontja
+        # Ha t > 1, akkor a legközelebbi pont a szakasz B pontja
+        # ha t >= 0 és t <= 1, akkor valahol a szakasz közepént
+        # Legközelebbi pont: Q = A + t * AB(vektor)
+        
+        
     def on_touch_down(self, touch):
         app = App.get_running_app()
         ui = app.root
-        if ui.placing_basic_tower:
+        if ui.placing_basic_tower and self.is_valid_tower_position(touch.x, touch.y):
             self.towers.append(Tower(self, (touch.x, touch.y)))
             ui.finish_basic_tower_placement()
             self.remove_basic_ghost_tower()

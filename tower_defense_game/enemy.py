@@ -11,6 +11,8 @@ class Enemy:
         self.size = (30, 30)
         self.pos = list(self.path[0])   # [0, 200]
         self.health = 50
+        self.damage = 5
+        self.value = 10
         
         with widget.canvas:
             Color(1,0,0) #Piros
@@ -31,11 +33,13 @@ class Enemy:
     def takeDamage(self, amount):
         self.health -= amount
         if self.health <= 0:
+            self.widget.parent.parent.money += self.value
             self.destroy()
         
         
     def move(self, deltaTime):
         if self.current_index >= len(self.path)-1:
+            self.widget.parent.parent.health -= self.damage
             self.destroy()
             return # Kilépünk, mert elértük a célt
         
