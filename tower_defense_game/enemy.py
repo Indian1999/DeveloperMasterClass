@@ -10,7 +10,8 @@ class Enemy:
         self.speed = 2
         self.size = (30, 30)
         self.pos = list(self.path[0])   # [0, 200]
-        self.health = 50
+        self.max_hp = 50
+        self.health = self.max_hp
         self.damage = 5
         self.value = 10
         self.moving = True
@@ -18,13 +19,23 @@ class Enemy:
         with widget.canvas:
             Color(1,0,0) #Piros
             self.rect = Rectangle(pos=self.pos, size = self.size)
+            Color(1,1,1)
+            self.hp_bar = Rectangle(pos=self.pos, size = (self.size[0], 5))
             
         self.alive = True    
         Clock.schedule_interval(self.move, 1/60)
+        Clock.schedule_interval(self.attack, 0.5)
+    
+    def attack(self, dt):
+        for soldier in self.widget.soldiers:
+            if self.distance_to(soldier.pos[0], soldier.pos[1]) < 36:
+                soldier.takeDamage(self.damage)
     
     def destroy(self):
         if hasattr(self, "rect") and self.rect in self.widget.canvas.children:
             self.widget.canvas.remove(self.rect)
+        if hasattr(self, "hp_bar") and self.hp_bar in self.widget.canvas.children:
+            self.widget.canvas.remove(self.hp_bar)
         try:
             self.widget.enemies.remove(self)
         except:
@@ -36,6 +47,7 @@ class Enemy:
         if self.health <= 0:
             self.widget.parent.parent.money += self.value
             self.destroy()
+        self.hp_bar.size = (self.health/self.max_hp * self.size[0],5)
         
         
     def move(self, deltaTime):
@@ -51,7 +63,10 @@ class Enemy:
                 
         
         close_enemy = False
-        index = self.widget.enemies.index(self)
+        try:
+            index = self.widget.enemies.index(self)
+        except:
+            return
         if index != 0:
             enemy_ahead = self.widget.enemies[index - 1]
             if self.distance_to(enemy_ahead.pos[0], enemy_ahead.pos[1]) < 35:
@@ -73,6 +88,7 @@ class Enemy:
                 self.pos[0] += step.x
                 self.pos[1] += step.y
                 self.rect.pos = self.pos
+                self.hp_bar.pos = self.pos
         
     
     def distance_to(self, x0, y0):

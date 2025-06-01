@@ -10,7 +10,7 @@ class Tower:
         self.range = range
         self.size = (40, 40)
         self.bullets = []
-        self.damage = 10
+        self.damage = 5
         with widget.canvas:
             Color(0,0,1)
             self.rect = Rectangle(pos=self.pos, size = self.size)
