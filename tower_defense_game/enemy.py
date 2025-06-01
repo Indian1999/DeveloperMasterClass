@@ -13,6 +13,7 @@ class Enemy:
         self.health = 50
         self.damage = 5
         self.value = 10
+        self.moving = True
         
         with widget.canvas:
             Color(1,0,0) #Piros
@@ -43,18 +44,29 @@ class Enemy:
             self.destroy()
             return # Kilépünk, mert elértük a célt
         
-        target = self.path[self.current_index + 1]
-        direction = Vector(*target) - Vector(*self.pos)
-        # target = (50, 100)
-        # *target -> 50, 100
-        # Vector(target), akkor egy tuple-t adok át a Vector konstruktorának (HIBÁT okozna)
-        # Vector(*target), akkor több egyszerű paramétert adok át
-        # * kicsomagoló operátor pythonban
-        if direction.length() < self.speed:
-            self.current_index += 1
-        else:
-            step = direction.normalize() * self.speed
-            self.pos[0] += step.x
-            self.pos[1] += step.y
-            self.rect.pos = self.pos
+        close_soldier = False
+        for soldier in self.widget.soldiers:
+            if self.distance_to(soldier.pos[0], soldier.pos[1]) < 35:
+                close_soldier = True
+                
+        self.moving = not close_soldier
         
+        if self.moving:
+            target = self.path[self.current_index + 1]
+            direction = Vector(*target) - Vector(*self.pos)
+            # target = (50, 100)
+            # *target -> 50, 100
+            # Vector(target), akkor egy tuple-t adok át a Vector konstruktorának (HIBÁT okozna)
+            # Vector(*target), akkor több egyszerű paramétert adok át
+            # * kicsomagoló operátor pythonban
+            if direction.length() < self.speed:
+                self.current_index += 1
+            else:
+                step = direction.normalize() * self.speed
+                self.pos[0] += step.x
+                self.pos[1] += step.y
+                self.rect.pos = self.pos
+        
+    
+    def distance_to(self, x0, y0):
+        return ((self.pos[0] - x0) ** 2 + (self.pos[1] - y0) ** 2)**(1/2)

@@ -6,8 +6,6 @@ from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty, BooleanProperty
 
-
-
 from enemy import Enemy
 from tower import Tower
 from soldier import Soldier
