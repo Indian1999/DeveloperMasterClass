@@ -66,10 +66,19 @@ def select_country_starts_with(start):
     for item in results:
         print(item)
     
-select_country_starts_with("m")
+#select_country_starts_with("m")
 
 # Kérdezzük le azokat a sorokat, ahol a névben benne van egy 'a' betű és country nevében is van 'a'
 # name, country, postal_code, és ezt tároljuk el egy erre alkalmas adatszerkezetben
+
+def select_name_and_country_a():
+    cursor.execute(f"SELECT name, country, postal_code FROM customers WHERE country LIKE '%a%' and name LIKE '%a%'")
+    results = cursor.fetchall() # Egy lista, ami tuple-ket tartalmaz
+    for item in results:
+        print(item)
+    print(len(results))
+        
+select_name_and_country_a()
     
 
 
