@@ -49,8 +49,15 @@ class Enemy:
             if self.distance_to(soldier.pos[0], soldier.pos[1]) < 35:
                 close_soldier = True
                 
-        self.moving = not close_soldier
         
+        close_enemy = False
+        index = self.widget.enemies.index(self)
+        if index != 0:
+            enemy_ahead = self.widget.enemies[index - 1]
+            if self.distance_to(enemy_ahead.pos[0], enemy_ahead.pos[1]) < 35:
+                close_enemy = True
+            
+        self.moving = not close_enemy and not close_soldier
         if self.moving:
             target = self.path[self.current_index + 1]
             direction = Vector(*target) - Vector(*self.pos)
