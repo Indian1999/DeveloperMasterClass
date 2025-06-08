@@ -6,10 +6,9 @@ from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty, BooleanProperty
 
-
-
 from enemy import Enemy
 from tower import Tower
+from soldier import Soldier
 
 class GameUI(BoxLayout):
     money = NumericProperty(5000)
@@ -28,8 +27,6 @@ class GameUI(BoxLayout):
             self.money -= 150
             self.placing_basic_tower = False
     
-    def summon_soldier(self):
-        pass
 
 class GameWidget(Widget):
     def __init__(self, **kwarg):
@@ -43,12 +40,17 @@ class GameWidget(Widget):
         ]
         Window.bind(mouse_pos=self.on_mouse_move)
         self.enemies = []
+        self.soldiers = []
         self.towers = []
         self.draw_path()
         self.basic_ghost_tower = None
         self.towers.append(Tower(self, (500, 500)))
         Clock.schedule_interval(self.spawn_enemy, 5)
            
+    
+    def summon_soldier(self):
+        self.soldiers.append(Soldier(self, self.path_points))
+    
     def is_valid_tower_position(self, x, y):
         for i in range(len(self.path_points) - 1):
             A = self.path_points[i]
@@ -116,9 +118,7 @@ class GameWidget(Widget):
             self.canvas.remove(self.basic_ghost_tower)
             self.basic_ghost_tower = None
             
-        
-            
-          
+
     def spawn_enemy(self, deltaTime):
         self.enemies.append(Enemy(self, self.path_points))
         
