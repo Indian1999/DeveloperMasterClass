@@ -11,7 +11,7 @@ from tower import Tower
 from soldier import Soldier
 
 class GameUI(BoxLayout):
-    money = NumericProperty(5000)
+    money = NumericProperty(200)
     health = NumericProperty(100)
     wave = NumericProperty(1)
     placing_basic_tower = BooleanProperty(False)
@@ -43,13 +43,51 @@ class GameWidget(Widget):
         self.soldiers = []
         self.towers = []
         self.draw_path()
+        self.wave_in_progress = False
+        self.enemies_to_spawn = 0
         self.basic_ghost_tower = None
-        self.towers.append(Tower(self, (500, 500)))
-        Clock.schedule_interval(self.spawn_enemy, 5)
+        #self.towers.append(Tower(self, (500, 500)))
+        #Clock.schedule_interval(self.spawn_enemy, 5)
+        Clock.schedule_once(self.start_first_wave, 2)
            
+    def start_first_wave(self, dt):
+        app = App.get_running_app()
+        ui = app.root
+        
+        self.wave_in_progress = True
+        self.enemies_to_spawn = 5
+        ui.wave = 1
+        
+        Clock.schedule_interval(self.spawn_enemy_in_wave, 0.5)
+        
+    def spawn_enemy_in_wave(self, dt):
+        if self.enemies_to_spawn > 0:
+            self.spawn_enemy()
+            self.enemies_to_spawn -= 1
+        else:
+            Clock.unschedule(self.spawn_enemy_in_wave)
+            self.wave_in_progress = False
+            self.schedule_next_wave()
+            
+    def schedule_next_wave(self):
+        Clock.schedule_once(self.start_next_wave, 10) # 10 mp downtime 2 wave között
     
+    def start_next_wave(self, dt):
+        app = App.get_running_app()
+        ui = app.root
+        
+        ui.wave += 1
+        self.wave_in_progress = True
+        self.enemies_to_spawn = ui.wave * 5
+        
+        Clock.schedule_interval(self.spawn_enemy_in_wave, 0.5)
+        
     def summon_soldier(self):
-        self.soldiers.append(Soldier(self, self.path_points))
+        app = App.get_running_app()
+        ui = app.root
+        if ui.money >= 50:
+            self.soldiers.append(Soldier(self, self.path_points))
+            ui.money -= 50
     
     def is_valid_tower_position(self, x, y):
         for i in range(len(self.path_points) - 1):
@@ -88,8 +126,7 @@ class GameWidget(Widget):
         # Ha t > 1, akkor a legközelebbi pont a szakasz B pontja
         # ha t >= 0 és t <= 1, akkor valahol a szakasz közepént
         # Legközelebbi pont: Q = A + t * AB(vektor)
-        
-        
+            
     def on_touch_down(self, touch):
         app = App.get_running_app()
         ui = app.root
@@ -119,7 +156,7 @@ class GameWidget(Widget):
             self.basic_ghost_tower = None
             
 
-    def spawn_enemy(self, deltaTime):
+    def spawn_enemy(self, deltaTime = None):
         self.enemies.append(Enemy(self, self.path_points))
         
     def draw_path(self):
