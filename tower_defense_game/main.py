@@ -5,7 +5,12 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import NumericProperty, BooleanProperty
-
+from kivy.uix.modalview import ModalView
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+import time
+import requests
 from enemy import Enemy
 from tower import Tower
 from soldier import Soldier
@@ -14,6 +19,7 @@ class GameUI(BoxLayout):
     money = NumericProperty(200)
     health = NumericProperty(100)
     wave = NumericProperty(1)
+    score = NumericProperty(0)
     placing_basic_tower = BooleanProperty(False)
     
     def building_basic_tower(self):
@@ -50,6 +56,52 @@ class GameWidget(Widget):
         #Clock.schedule_interval(self.spawn_enemy, 5)
         Clock.schedule_once(self.start_first_wave, 2)
            
+    def show_game_over(self):
+        Clock.unschedule(self.spawn_enemy_in_wave)
+        self.enemies.clear()
+        game_over_popup = ModalView(size_hint=(0.5, 0.3), auto_dismiss = False)
+        label = Label(text= "Game Over", font_size = "24", size_hint = (0.9, 0.2))
+        ui = App.get_running_app().root
+        score_label = Label(text = f"Score: {ui.score}", size_hint = (0.9, 0.2))
+        name_textbox = TextInput(hint_text = "Enter your name", multiline=False, size_hint= (0.9, 0.2))
+        submit_btn = Button(text = "Submit", size_hint = (0.9, 0.2))
+        
+        layout = BoxLayout(orientation = "vertical", spacing=10, padding=10)
+        layout.add_widget(label)
+        layout.add_widget(score_label)
+        layout.add_widget(name_textbox)
+        layout.add_widget(submit_btn)
+        
+        game_over_popup.add_widget(layout)
+        
+        def submit_action(instance):
+            name = name_textbox.text.strip()
+            if name:
+                with open("highscores.csv", "a", encoding="utf-8") as f:
+                    f.write(name + ";" + str(ui.score) + ";" + str(time.time()) + "\n")
+                url = "https://vincebence-500c0-default-rtdb.europe-west1.firebasedatabase.app/highscores.json"
+                data = {
+                    "username": name,
+                    "score": ui.score,
+                    "timestamp": time.time()
+                }
+                try:
+                    response = requests.post(url, json=data)
+                    if response.status_code == 200:
+                        print("Score submitted to the databse.")
+                    else:
+                        print("Error when submitting the score.")
+                        print("Status code:", response.status_code)
+                        print(response.text)
+                except Exception as e:
+                    print("Error:", e)
+                    
+            game_over_popup.dismiss()
+            App.get_running_app().stop()
+        submit_btn.bind(on_release=submit_action)
+        
+        game_over_popup.open()
+        
     def start_first_wave(self, dt):
         app = App.get_running_app()
         ui = app.root
@@ -64,7 +116,7 @@ class GameWidget(Widget):
         if self.enemies_to_spawn > 0:
             self.spawn_enemy()
             self.enemies_to_spawn -= 1
-        else:
+        elif len(self.enemies) == 0:
             Clock.unschedule(self.spawn_enemy_in_wave)
             self.wave_in_progress = False
             self.schedule_next_wave()

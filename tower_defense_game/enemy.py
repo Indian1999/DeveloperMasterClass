@@ -7,13 +7,13 @@ class Enemy:
         self.widget = widget
         self.path = path_points
         self.current_index = 0 # Hanyadik path pointnál jár?
-        self.speed = 2
+        self.speed = 20
         self.size = (30, 30)
         self.pos = list(self.path[0])   # [0, 200]
         self.max_hp = 50
         self.health = self.max_hp
-        self.damage = 5
-        self.value = 10
+        self.damage = 50
+        self.value = 15
         self.moving = True
         
         with widget.canvas:
@@ -46,6 +46,7 @@ class Enemy:
         self.health -= amount
         if self.health <= 0:
             self.widget.parent.parent.money += self.value
+            self.widget.parent.parent.score += self.value
             self.destroy()
         self.hp_bar.size = (self.health/self.max_hp * self.size[0],5)
         
@@ -53,6 +54,8 @@ class Enemy:
     def move(self, deltaTime):
         if self.current_index >= len(self.path)-1:
             self.widget.parent.parent.health -= self.damage
+            if self.widget.parent.parent.health <= 0:
+                self.widget.show_game_over()
             self.destroy()
             return # Kilépünk, mert elértük a célt
         
