@@ -3,17 +3,17 @@ from kivy.clock import Clock
 from kivy.vector import Vector
 
 class Enemy:
-    def __init__(self, widget, path_points):
+    def __init__(self, widget, path_points, speed = 2, max_hp = 50, damage = 5, value = 15):
         self.widget = widget
         self.path = path_points
         self.current_index = 0 # Hanyadik path pointnál jár?
-        self.speed = 20
+        self.speed = speed
         self.size = (30, 30)
         self.pos = list(self.path[0])   # [0, 200]
-        self.max_hp = 50
+        self.max_hp = max_hp
         self.health = self.max_hp
-        self.damage = 50
-        self.value = 15
+        self.damage = damage
+        self.value = value
         self.moving = True
         
         with widget.canvas:

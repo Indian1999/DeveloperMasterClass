@@ -95,12 +95,56 @@ class GameWidget(Widget):
                         print(response.text)
                 except Exception as e:
                     print("Error:", e)
-                    
             game_over_popup.dismiss()
-            App.get_running_app().stop()
+            print("game_over closed")
+            self.show_highscores()
         submit_btn.bind(on_release=submit_action)
         
         game_over_popup.open()
+    
+    def show_highscores(self):
+        highscores_popup = ModalView(size_hint=(0.5, 0.8), auto_dismiss = False)
+        
+        layout = BoxLayout(orientation="vertical")
+        
+        url = "https://vincebence-500c0-default-rtdb.europe-west1.firebasedatabase.app/highscores.json"
+        
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+            else:
+                print("Status code error:", response.status_code)
+        except Exception as e:
+            print(e)
+        
+        label = Label(text=f"TOP 10", font_size = 30)
+        layout.add_widget(label)
+        sorted_scores = sorted(data.items(), key = lambda x: x[1]["score"], reverse = True)
+        i = 0
+        while i < 10 and i < len(sorted_scores):
+            key, entry = sorted_scores[i]
+            label = Label(text=f"{i+1}. {entry["username"]}: {entry["score"]}", font_size = "24")
+            layout.add_widget(label)
+            i += 1
+        highscores_popup.add_widget(layout)
+        restart_btn = Button(text="Restart")
+        quit_btn = Button(text = "Quit")
+        
+        #layout.add_widget(restart_btn)
+        layout.add_widget(quit_btn)
+        
+        def restart_game(instance):
+            App.get_running_app().stop()
+            TowerDefenseApp.run()
+            
+        restart_btn.bind(on_relese=restart_game)
+        quit_btn.bind(on_release= lambda x: App.get_running_app().stop())
+        
+        
+        highscores_popup.open()
+        
+        
         
     def start_first_wave(self, dt):
         app = App.get_running_app()
@@ -113,8 +157,15 @@ class GameWidget(Widget):
         Clock.schedule_interval(self.spawn_enemy_in_wave, 0.5)
         
     def spawn_enemy_in_wave(self, dt):
+        ui = App.get_running_app().root
         if self.enemies_to_spawn > 0:
-            self.spawn_enemy()
+            self.enemies.append(Enemy(
+                self, self.path_points,
+                speed = ui.wave // 4 + 1,
+                max_hp = ui.wave * 5 + 30,
+                damage = max(ui.wave * 2, 5),
+                value = max(20 - ui.wave, 1)
+            ))
             self.enemies_to_spawn -= 1
         elif len(self.enemies) == 0:
             Clock.unschedule(self.spawn_enemy_in_wave)
